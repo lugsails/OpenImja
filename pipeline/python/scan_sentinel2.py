@@ -83,6 +83,8 @@ def main() -> None:
     credentials, _ = google.auth.default(scopes=["https://www.googleapis.com/auth/earthengine", "https://www.googleapis.com/auth/cloud-platform"])
     ee.Initialize(credentials=credentials, project=args.project)
     config = json.loads(CONFIG_PATH.read_text())
+    if config["reviewed_reference_lake_envelope"]["status"] != "reviewed_for_v0_1_qa":
+        raise RuntimeError("Reference lake envelope is superseded after an AOI change. Regenerate and visually review it before running envelope-gated QA.")
     envelope_file = ROOT / config["reviewed_reference_lake_envelope"]["path"]
     envelope = ee.Geometry(json.loads(envelope_file.read_text())["features"][0]["geometry"])
     SCENE_DIR.mkdir(parents=True, exist_ok=True); REPORT_DIR.mkdir(parents=True, exist_ok=True)

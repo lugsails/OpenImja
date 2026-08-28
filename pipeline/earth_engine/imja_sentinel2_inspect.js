@@ -4,8 +4,8 @@
 // seed point, masks, and threshold before publishing a derived observation.
 
 var aoi = ee.Geometry.Polygon([[
-  [86.913, 27.893], [86.942, 27.893], [86.942, 27.906],
-  [86.913, 27.906], [86.913, 27.893]
+  [86.905, 27.887], [86.950, 27.887], [86.950, 27.911],
+  [86.905, 27.911], [86.905, 27.887]
 ]]);
 var seed = ee.Geometry.Point([86.9222222, 27.8986111]);
 var start = '2025-10-15';

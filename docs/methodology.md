@@ -25,3 +25,5 @@ Any future SAR adapter must emit the same observation-state, provenance, freshne
 ## Reproducibility
 
 Each record carries acquisition time, processing time, source product ID, collection, parameters, code revision, configuration path, quality flags, freshness evaluation, and a derived GeoJSON boundary. The CSV is a convenient index; the observation JSON is the authoritative detailed record.
+
+An AOI is a processing window, not a shoreline. If a derived component reaches an AOI edge, OpenImja treats that result as potentially clipped: the AOI must be expanded, the scene rerun, and the QA reference envelope regenerated and visually reviewed before it is used for observability gating.

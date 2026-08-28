@@ -77,6 +77,8 @@ def main() -> None:
     credentials, _ = google.auth.default(scopes=["https://www.googleapis.com/auth/earthengine", "https://www.googleapis.com/auth/cloud-platform"])
     ee.Initialize(credentials=credentials, project=args.project)
     config = json.loads(CONFIG_PATH.read_text()); sar = config["sentinel1_sar"]
+    if config["reviewed_reference_lake_envelope"]["status"] != "reviewed_for_v0_1_qa":
+        raise RuntimeError("Reference lake envelope is superseded after an AOI change. Regenerate and visually review it before running SAR envelope-gated QA.")
     envelope = ee.Geometry(json.loads((ROOT / config["reviewed_reference_lake_envelope"]["path"]).read_text())["features"][0]["geometry"])
     aoi = ee.Geometry(config["geometry"])
     images = ee.ImageCollection("COPERNICUS/S1_GRD").filterBounds(aoi).filterDate(args.start, args.end).filter(ee.Filter.eq("instrumentMode", sar["instrument_mode"])).filter(ee.Filter.listContains("transmitterReceiverPolarisation", sar["polarization"]))
