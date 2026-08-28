@@ -29,6 +29,8 @@ Historical backfills are idempotent by source product: the CSV replaces a matchi
 
 Open `earth_engine/imja_sentinel2_inspect.js` in the Earth Engine Code Editor and select the configured Cloud project. It renders the raw RGB image, SCL classes, raw NDWI, masked probable water, draft AOI, and draft seed point. Adjusting the configuration or threshold requires recording why and visually reviewing the resulting boundary; do not lower criteria simply to fill a data gap.
 
+After an AOI change, generate a non-publishing candidate reference boundary with `generate_reference_envelope.py`, review it, then update the configured reference-envelope path and status before resuming QA scans.
+
 ## Scene QA and review states
 
 Use `scan_sentinel2.py` to inspect **every** Sentinel-2 scene in a bounded date range. It writes per-scene records to `data/processed/imja-tsho/scenes/` and a compact report to `data/processed/imja-tsho/reports/`. A scene progresses from `discovered` to either `processed` or `rejected`; rejected records are retained with machine-readable reasons. The scan never updates the public latest record.

@@ -15,10 +15,10 @@
   },
   "aoi_status": "expanded_after_edge_clipping_review_requires_visual_validation",
   "reviewed_reference_lake_envelope": {
-    "path": "data/processed/imja-tsho/boundaries/2025-11-17_20251117T044959_20251117T045240_T45RVL.geojson",
+    "path": "data/processed/imja-tsho/reference-candidates/2025-11-17_20251117T044959_20251117T045240_T45RVL_expanded-aoi.geojson",
     "source_observation": "data/processed/imja-tsho/2025-11-17.json",
-    "status": "superseded_by_aoi_expansion_requires_regeneration",
-    "notes": "The previous November 2025 boundary was visually checked as the intended Imja Tsho target but touched the old AOI edge. It must not be used as the definitive QA observability envelope after this AOI expansion. Regenerate and visually review a new candidate before restoring reference-envelope QA."
+    "status": "reviewed_for_v0_1_qa",
+    "notes": "Generated from the November 2025 Sentinel-2 reference scene with the expanded AOI and visually checked in the Earth Engine Code Editor by the project operator. It is a QA observability envelope, not an authoritative shoreline. Re-review it whenever AOI or segmentation parameters change."
   },
   "sentinel2_qa": {
     "minimum_aoi_valid_fraction": 0.2,
