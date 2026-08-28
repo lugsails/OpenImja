@@ -7,9 +7,10 @@ import json
 from datetime import datetime, timezone
 from pathlib import Path
 
+from lifecycle import can_transition, should_update_latest
+
 ROOT = Path(__file__).resolve().parents[2]
 LATEST = ROOT / "data/latest/imja-tsho.json"
-ALLOWED = {("processed", "reviewed"), ("reviewed", "published")}
 
 
 def now() -> str:
@@ -27,15 +28,15 @@ def main() -> None:
         parser.error("record must be inside this repository")
     record = json.loads(path.read_text())
     current = record["observation_state"]
-    if (current, args.to) not in ALLOWED:
+    if not can_transition(current, args.to, record["rejection_reasons"]):
         parser.error(f"invalid transition {current} -> {args.to}")
-    if record["rejection_reasons"]:
-        parser.error("rejected observations cannot be reviewed/published without a new processing run")
     record["observation_state"] = args.to
     record.setdefault("state_history", []).append({"state": args.to, "at": now(), "note": args.note})
     path.write_text(json.dumps(record, indent=2) + "\n")
     if args.to == "published":
-        LATEST.write_text(json.dumps({"lake_id": record["lake_id"], "status": "valid_observation", "as_of": now(), "latest_observation": record, "limitations_url": "../../docs/limitations.md"}, indent=2) + "\n")
+        existing = json.loads(LATEST.read_text()) if LATEST.exists() else None
+        if should_update_latest(existing, record):
+            LATEST.write_text(json.dumps({"lake_id": record["lake_id"], "status": "valid_observation", "as_of": now(), "latest_observation": record, "limitations_url": "../../docs/limitations.md"}, indent=2) + "\n")
     print(json.dumps({"record": str(path.relative_to(ROOT)), "state": args.to}, indent=2))
 
 

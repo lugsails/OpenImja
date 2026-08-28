@@ -48,4 +48,16 @@ python pipeline/python/review_observation.py data/processed/imja-tsho/scenes/SCE
 
 Run regression checks with `PYTHONPATH=pipeline/python python -m unittest discover -s pipeline/python/tests`.
 
+## Experimental Sentinel-1 validation
+
+`scan_sentinel1.py` scans IW/VV GRD scenes using configurable dB thresholds and the same lifecycle, reference-envelope, and provenance architecture. It creates SAR candidates/rejections only; it never publishes or substitutes for optical observations.
+
+```sh
+python pipeline/python/scan_sentinel1.py --start 2025-11-14 --end 2025-11-21 --project "$OPENIMJA_EE_PROJECT"
+python pipeline/python/pair_s1_s2.py --window-days 3
+python pipeline/python/summarize_s1_s2_pairs.py
+```
+
+See [SAR methodology](../docs/sar-methodology.md). The pairing CSV retains all nearby SAR records, including rejected scenes, so a small or selective sample cannot be mistaken for validation.
+
 For a long-term candidate series (Landsat) and recent Sentinel-2 dates, first inspect the date strategy in `build_history.py`; it deliberately requires `--execute` before it runs processing. Landsat's 30 m results need separate review before comparing them with Sentinel-2.

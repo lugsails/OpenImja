@@ -1,6 +1,7 @@
 {
   "lake_id": "imja-tsho",
   "variable": "lake_area",
+  "measurement_family": "optical",
   "value": 1.34024,
   "unit": "km2",
   "observed_at": "2025-11-17T05:01:00.426000Z",

@@ -27,6 +27,15 @@
     "outlier_minimum_elapsed_days": 30,
     "outlier_max_relative_area_change": 0.5
   },
+  "sentinel1_sar": {
+    "instrument_mode": "IW",
+    "polarization": "VV",
+    "edge_mask_threshold_db": -30,
+    "water_backscatter_threshold_db": -17,
+    "minimum_lake_envelope_valid_fraction": 0.8,
+    "minimum_component_area_km2": 0.05,
+    "notes": "Initial validation parameters only. VV water threshold must be evaluated separately by orbit direction; do not treat SAR and optical values as interchangeable."
+  },
   "seed_point": {
     "type": "Point",
     "coordinates": [86.9222222, 27.8986111]
@@ -34,7 +43,7 @@
   "data_sources": [
     {"name": "Sentinel-2 Level-2A", "role": "recent optical lake-area estimates", "collection": "COPERNICUS/S2_SR_HARMONIZED"},
     {"name": "Landsat Collection 2 Level 2", "role": "historical optical lake-area estimates", "collection": "LANDSAT/LC08/C02/T1_L2"},
-    {"name": "Sentinel-1 GRD", "role": "future SAR support; not implemented in v0.1", "collection": "COPERNICUS/S1_GRD"}
+    {"name": "Sentinel-1 GRD", "role": "SAR validation candidates; never merged with optical series", "collection": "COPERNICUS/S1_GRD"}
   ],
   "notes": "The previous v0.1 draft reference (27°59′17″N) was visibly inconsistent with Imja Tsho and has been replaced with a literature-reported candidate reference of 27°53′55″N, 86°55′20″E. Coordinate sources disagree, so this remains requires_external_verification. The bounding AOI and seed point are initial processing aids, not an authoritative lake boundary; validate them against imagery before publishing measurements."
 }

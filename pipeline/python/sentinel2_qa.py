@@ -21,9 +21,13 @@ def nearest_reference(observed_at: datetime, records: list[dict], max_age_days: 
         if record.get("value") is None:
             continue
         date = datetime.fromisoformat(record["observed_at"].replace("Z", "+00:00"))
-        days = abs((observed_at - date).total_seconds()) / 86400
+        # A later observation must never provide context for an earlier scene.
+        if date >= observed_at:
+            continue
+        days = (observed_at - date).total_seconds() / 86400
         if minimum_elapsed_days <= days <= max_age_days:
             candidates.append((days, record))
+    # Nearest eligible predecessor is equivalent to the most recent predecessor.
     return min(candidates, default=(None, None), key=lambda item: item[0])[1]
 
 

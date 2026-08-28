@@ -99,7 +99,7 @@ def process(args: argparse.Namespace) -> dict:
     processed = datetime.now(timezone.utc)
     relative_boundary = str(boundary_path.relative_to(ROOT)).replace("\\", "/")
     observation = {
-        "lake_id": config["id"], "variable": "lake_area", "value": round(area_m2 / 1_000_000, 6), "unit": "km2",
+        "lake_id": config["id"], "variable": "lake_area", "measurement_family": "optical", "value": round(area_m2 / 1_000_000, 6), "unit": "km2",
         "observed_at": utc_z(observed), "processed_at": utc_z(processed), "source": "Sentinel-2",
         "source_product": image_id, "source_url": "https://developers.google.com/earth-engine/datasets/catalog/COPERNICUS_S2_SR_HARMONIZED",
         "method": METHOD, "method_version": METHOD_VERSION,

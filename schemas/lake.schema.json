@@ -19,6 +19,7 @@
     "aoi_status": {"type": "string"},
     "reviewed_reference_lake_envelope": {"type": "object", "required": ["path", "source_observation", "status", "notes"]},
     "sentinel2_qa": {"type": "object", "required": ["minimum_aoi_valid_fraction", "minimum_lake_envelope_valid_fraction", "outlier_comparison_max_age_days", "outlier_minimum_elapsed_days", "outlier_max_relative_area_change"]},
+    "sentinel1_sar": {"type": "object", "required": ["instrument_mode", "polarization", "edge_mask_threshold_db", "water_backscatter_threshold_db", "minimum_lake_envelope_valid_fraction", "minimum_component_area_km2", "notes"]},
     "data_sources": {"type": "array", "items": {"type": "object", "required": ["name", "role"]}},
     "notes": {"type": "string"}
   },

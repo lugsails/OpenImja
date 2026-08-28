@@ -2,10 +2,11 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "OpenImja derived observation",
   "type": "object",
-  "required": ["lake_id", "variable", "value", "unit", "observed_at", "processed_at", "source", "method", "method_version", "confidence", "quality_flags", "freshness", "provenance", "observation_state", "rejection_reasons"],
+  "required": ["lake_id", "variable", "measurement_family", "value", "unit", "observed_at", "processed_at", "source", "method", "method_version", "confidence", "quality_flags", "freshness", "provenance", "observation_state", "rejection_reasons"],
   "properties": {
     "lake_id": {"type": "string"},
     "variable": {"const": "lake_area"},
+    "measurement_family": {"enum": ["optical", "sar"]},
     "value": {"type": ["number", "null"], "minimum": 0},
     "unit": {"const": "km2"},
     "observed_at": {"type": "string", "format": "date-time"},
