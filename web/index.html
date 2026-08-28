@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="An experimental, reproducible public observation layer for Imja Tsho.">
+    <title>OpenImja — Imja Tsho observations</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="wordmark" href="./">OPENIMJA <span>OBSERVATORY</span></a>
+      <p>Experimental public observations · Imja Tsho, Nepal</p>
+    </header>
+    <main>
+      <section class="intro" aria-labelledby="lake-name">
+        <p class="eyebrow">SATELLITE OBSERVATION RECORD</p>
+        <h1 id="lake-name">IMJA TSHO</h1>
+        <p class="location">Imja Khola / Dudh Koshi watershed · Nepal</p>
+      </section>
+
+      <section class="notice" aria-label="Important limitation">
+        <strong>Not a warning system.</strong> Satellite observations can be delayed, cloud-obscured, incomplete, or wrong. Freshness describes data age only—not hazard. Rely on Nepal’s official authorities for emergency information.
+      </section>
+
+      <section class="latest" aria-labelledby="latest-heading">
+        <div class="section-heading"><p class="eyebrow">LATEST SATELLITE OBSERVATION</p><h2 id="latest-heading">Lake surface area</h2></div>
+        <div id="latest-content" class="latest-grid" aria-live="polite"><p>Loading published record…</p></div>
+      </section>
+
+      <section class="panel" aria-labelledby="history-heading">
+        <div class="section-heading"><p class="eyebrow">ARCHIVE</p><h2 id="history-heading">Historical lake area</h2></div>
+        <div id="chart" class="chart" role="img" aria-label="Historical lake surface area chart"></div>
+        <p class="caption">Only reviewed, valid observations are charted. Different sensors and method versions may not be directly comparable.</p>
+      </section>
+
+      <section class="two-column">
+        <article class="panel" aria-labelledby="boundary-heading">
+          <div class="section-heading"><p class="eyebrow">LATEST DERIVATION</p><h2 id="boundary-heading">Lake boundary</h2></div>
+          <div id="map" class="map" aria-live="polite">Loading boundary…</div>
+          <p class="caption">Derived probable-water boundary; not an authoritative shoreline.</p>
+        </article>
+        <article class="panel provenance" aria-labelledby="provenance-heading">
+          <div class="section-heading"><p class="eyebrow">REPRODUCIBILITY</p><h2 id="provenance-heading">Source &amp; method</h2></div>
+          <dl id="provenance"><dt>Status</dt><dd>Loading…</dd></dl>
+          <a href="../docs/methodology.md">Read methodology</a> · <a href="../docs/limitations.md">Read limitations</a>
+        </article>
+      </section>
+    </main>
+    <footer>OpenImja v0.1 · Static, file-based public data · <a href="../README.md">Repository notes</a></footer>
+    <script src="app.js"></script>
+  </body>
+</html>

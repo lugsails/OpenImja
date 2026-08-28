@@ -1,0 +1,8 @@
+.venv/
+__pycache__/
+*.py[cod]
+.DS_Store
+data/raw/*
+!data/raw/.gitkeep
+data/processed/imja-tsho/boundaries/*.geojson
+!data/processed/imja-tsho/boundaries/.gitkeep

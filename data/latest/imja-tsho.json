@@ -1,0 +1,8 @@
+{
+  "lake_id": "imja-tsho",
+  "status": "no_valid_observation_published",
+  "as_of": "2026-08-27T00:00:00Z",
+  "message": "No derived satellite observation has been published from this repository yet. Run pipeline/python/process_sentinel2.py with authenticated Earth Engine access, review its quality flags and boundary, then publish the generated record.",
+  "latest_observation": null,
+  "limitations_url": "../../docs/limitations.md"
+}

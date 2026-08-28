@@ -1,0 +1,31 @@
+name: Prepare recent Imja observation
+
+on:
+  workflow_dispatch:
+    inputs:
+      date:
+        description: Start date for Sentinel-2 image search (YYYY-MM-DD)
+        required: true
+        type: string
+      ndwi_threshold:
+        description: NDWI probable-water threshold; review against imagery
+        required: false
+        default: "0.10"
+
+permissions:
+  contents: read
+
+jobs:
+  process:
+    runs-on: ubuntu-latest
+    # Manual only: outputs must be reviewed before any publication workflow exists.
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install -r pipeline/python/requirements.txt
+      - name: Explain required Earth Engine authentication
+        run: |
+          echo "Earth Engine credentials are intentionally not configured in this repository."
+          echo "Run the processor locally or add a separately reviewed, least-privilege authentication design before enabling automated processing."

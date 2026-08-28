@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "OpenImja lake configuration",
+  "type": "object",
+  "required": ["id", "name", "country", "latitude", "longitude", "geometry", "data_sources", "notes"],
+  "properties": {
+    "$schema": {"type": "string"},
+    "id": {"type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"},
+    "name": {"type": "string"},
+    "alternate_names": {"type": "array", "items": {"type": "string"}},
+    "country": {"type": "string"},
+    "latitude": {"type": "number", "minimum": -90, "maximum": 90},
+    "longitude": {"type": "number", "minimum": -180, "maximum": 180},
+    "elevation_m": {"type": ["number", "null"]},
+    "watershed": {"type": ["string", "null"]},
+    "downstream_river_system": {"type": ["string", "null"]},
+    "geometry": {"type": "object", "required": ["type", "coordinates"]},
+    "seed_point": {"type": ["object", "null"]},
+    "aoi_status": {"type": "string"},
+    "data_sources": {"type": "array", "items": {"type": "object", "required": ["name", "role"]}},
+    "notes": {"type": "string"}
+  },
+  "additionalProperties": false
+}

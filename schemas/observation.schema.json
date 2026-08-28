@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "OpenImja derived observation",
+  "type": "object",
+  "required": ["lake_id", "variable", "value", "unit", "observed_at", "processed_at", "source", "method", "method_version", "confidence", "quality_flags", "freshness", "provenance"],
+  "properties": {
+    "lake_id": {"type": "string"},
+    "variable": {"const": "lake_area"},
+    "value": {"type": "number", "minimum": 0},
+    "unit": {"const": "km2"},
+    "observed_at": {"type": "string", "format": "date-time"},
+    "processed_at": {"type": "string", "format": "date-time"},
+    "source": {"type": "string"},
+    "source_product": {"type": "string"},
+    "source_url": {"type": ["string", "null"], "format": "uri"},
+    "method": {"type": "string"},
+    "method_version": {"type": "string"},
+    "parameters": {"type": "object"},
+    "confidence": {"type": ["number", "null"], "minimum": 0, "maximum": 1},
+    "quality_flags": {"type": "array", "items": {"type": "string"}},
+    "freshness": {"type": "object", "required": ["status", "age_days", "evaluated_at"]},
+    "boundary_geojson_url": {"type": ["string", "null"]},
+    "provenance": {"type": "object", "required": ["code_version", "config_path", "image_id"]}
+  },
+  "additionalProperties": false
+}
