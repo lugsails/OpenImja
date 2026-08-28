@@ -4,24 +4,24 @@
   "name": "Imja Tsho",
   "alternate_names": ["Imja Lake", "Imja Glacier Lake"],
   "country": "Nepal",
-  "latitude": 27.9880556,
-  "longitude": 86.9252778,
+  "latitude": 27.8986111,
+  "longitude": 86.9222222,
   "elevation_m": 5010,
   "watershed": "Imja Khola / Dudh Koshi",
   "downstream_river_system": "Imja Khola → Dudh Koshi → Koshi → Ganges",
   "geometry": {
     "type": "Polygon",
-    "coordinates": [[[86.912, 27.981], [86.942, 27.981], [86.942, 27.997], [86.912, 27.997], [86.912, 27.981]]]
+    "coordinates": [[[86.913, 27.893], [86.942, 27.893], [86.942, 27.906], [86.913, 27.906], [86.913, 27.893]]]
   },
   "aoi_status": "draft_requires_visual_validation",
   "seed_point": {
     "type": "Point",
-    "coordinates": [86.9252778, 27.9880556]
+    "coordinates": [86.9222222, 27.8986111]
   },
   "data_sources": [
     {"name": "Sentinel-2 Level-2A", "role": "recent optical lake-area estimates", "collection": "COPERNICUS/S2_SR_HARMONIZED"},
     {"name": "Landsat Collection 2 Level 2", "role": "historical optical lake-area estimates", "collection": "LANDSAT/LC08/C02/T1_L2"},
     {"name": "Sentinel-1 GRD", "role": "future SAR support; not implemented in v0.1", "collection": "COPERNICUS/S1_GRD"}
   ],
-  "notes": "Location and elevation are transcribed from ICIMOD's Imja Tsho story map. The bounding AOI and seed point are initial processing aids, not an authoritative lake boundary; validate them against imagery before publishing measurements."
+  "notes": "The previous v0.1 draft reference (27°59′17″N) was visibly inconsistent with Imja Tsho and has been replaced with a literature-reported candidate reference of 27°53′55″N, 86°55′20″E. Coordinate sources disagree, so this remains requires_external_verification. The bounding AOI and seed point are initial processing aids, not an authoritative lake boundary; validate them against imagery before publishing measurements."
 }

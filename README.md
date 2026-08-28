@@ -13,11 +13,13 @@ Given Imja Tsho and a date, `pipeline/python/process_sentinel2.py` searches Sent
 ```sh
 python -m venv .venv && . .venv/bin/activate
 pip install -r pipeline/python/requirements.txt
-earthengine authenticate
+export OPENIMJA_EE_PROJECT="your-earth-engine-enabled-cloud-project"
+earthengine authenticate --auth_mode=gcloud --scopes=https://www.googleapis.com/auth/earthengine,https://www.googleapis.com/auth/cloud-platform --force
+earthengine set_project "$OPENIMJA_EE_PROJECT"
 python pipeline/python/process_sentinel2.py --date 2025-10-15
 ```
 
-Review the generated GeoJSON boundary and quality flags before publishing it. The committed `data/latest/imja-tsho.json` currently says that no reviewed observation has been published—this is intentional rather than a fabricated measurement.
+Review the generated GeoJSON boundary and quality flags before publishing it. Re-run with `--promote-latest` only after visual review to update the public latest-record JSON.
 
 ## Repository map
 
@@ -30,6 +32,8 @@ Review the generated GeoJSON boundary and quality flags before publishing it. Th
 - `docs/` — methodology, sources, and limitations
 
 Every published observation should make clear what was measured, when it was observed, source product, method and parameters, quality flags, freshness, and how to reproduce it. See [the methodology](docs/methodology.md) and [limitations](docs/limitations.md).
+
+The Imja processing AOI and seed point are draft geometry. They were corrected after visual inspection showed the first draft point was displaced from the lake; they still require review against imagery before a value is published.
 
 ## Freshness is not risk
 

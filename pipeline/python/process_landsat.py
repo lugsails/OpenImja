@@ -5,11 +5,12 @@ This is a reproducible candidate generator. Review every boundary and do not mix
 sensor/method versions in interpretation without validation.
 """
 from __future__ import annotations
-import argparse, csv, json, subprocess
+import argparse, csv, json, os, subprocess
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
-import ee
+import ee, google.auth
 from freshness import classify
+from process_sentinel2 import publish
 
 ROOT=Path(__file__).resolve().parents[2]; CONFIG=ROOT/"config/lakes/imja-tsho.json"; CSV=ROOT/"data/processed/imja-tsho/lake-area.csv"; LATEST=ROOT/"data/latest/imja-tsho.json"; BOUNDARIES=ROOT/"data/processed/imja-tsho/boundaries"
 METHOD="landsat_c2_l2_qa_pixel_ndwi_connected_component"; VERSION="0.1.0"
@@ -28,7 +29,12 @@ def collection(aoi, start, end):
     for name,g,n in sources: merged=merged.merge(ee.ImageCollection(name).filterBounds(aoi).filterDate(start,end).map(lambda img, g=g,n=n: prep(img,g,n)))
     return merged
 def main():
-    p=argparse.ArgumentParser(description=__doc__); p.add_argument("--date",required=True); p.add_argument("--window-days",type=int,default=45); p.add_argument("--ndwi-threshold",type=float,default=0.10); p.add_argument("--min-valid-fraction",type=float,default=.70); a=p.parse_args(); ee.Initialize()
+    p=argparse.ArgumentParser(description=__doc__); p.add_argument("--date",required=True); p.add_argument("--window-days",type=int,default=45); p.add_argument("--ndwi-threshold",type=float,default=.10); p.add_argument("--min-valid-fraction",type=float,default=.70); p.add_argument("--project",default=os.environ.get("OPENIMJA_EE_PROJECT"),help="Earth Engine-enabled Google Cloud project (or set OPENIMJA_EE_PROJECT)"); p.add_argument("--auth-source",choices=["earthengine","application-default"],default="earthengine"); a=p.parse_args()
+    if not a.project: p.error("--project (or OPENIMJA_EE_PROJECT) is required; Earth Engine operations must be charged to an enabled Cloud project.")
+    if a.auth_source == "application-default":
+        credentials, _ = google.auth.default(scopes=["https://www.googleapis.com/auth/earthengine", "https://www.googleapis.com/auth/cloud-platform"])
+        ee.Initialize(credentials=credentials, project=a.project)
+    else: ee.Initialize(project=a.project)
     cfg=json.loads(CONFIG.read_text()); aoi=ee.Geometry(cfg["geometry"]); seed=ee.Geometry(cfg["seed_point"]); end=(datetime.fromisoformat(a.date)+timedelta(days=a.window_days+1)).date().isoformat()
     def annotate(img): return img.set("openimja_valid_fraction",img.select("green").mask().reduceRegion(ee.Reducer.mean(),aoi,30,maxPixels=10_000_000).get("green"))
     choices=collection(aoi,a.date,end).map(annotate).filter(ee.Filter.gte("openimja_valid_fraction",a.min_valid_fraction)).sort("CLOUD_COVER")
@@ -42,7 +48,5 @@ def main():
     flags=["DRAFT_AOI_REQUIRES_VISUAL_VALIDATION","OPTICAL_WATER_CLASSIFICATION","LANDSAT_30M_RESOLUTION"]
     if properties.get("openimja_valid_fraction",0)<.9: flags.append("PARTIALLY_MASKED_AOI")
     obs={"lake_id":cfg["id"],"variable":"lake_area","value":round(selected.geometry().area(1).getInfo()/1e6,6),"unit":"km2","observed_at":z(observed),"processed_at":z(datetime.now(timezone.utc)),"source":"Landsat","source_product":image_id,"source_url":"https://developers.google.com/earth-engine/datasets/catalog/landsat","method":METHOD,"method_version":VERSION,"parameters":{"index":"NDWI=(green-NIR)/(green+NIR)","ndwi_threshold":a.ndwi_threshold,"cloud_mask":"Landsat QA_PIXEL fill/dilated-cloud/cirrus/cloud/shadow/snow bits","aoi_valid_fraction_minimum":a.min_valid_fraction,"aoi_status":cfg["aoi_status"],"scale_m":30},"confidence":None,"quality_flags":flags,"freshness":classify(observed),"boundary_geojson_url":str(path.relative_to(ROOT)),"provenance":{"code_version":revision(),"config_path":"config/lakes/imja-tsho.json","image_id":image_id,"earth_engine_collection":"Landsat Collection 2 Level 2 (merged sensors)","scene_cloud_cover_percent":properties.get("CLOUD_COVER"),"aoi_valid_fraction":properties.get("openimja_valid_fraction")}}
-    (ROOT/"data/processed/imja-tsho"/f"{obs['observed_at'][:10]}.json").write_text(json.dumps(obs,indent=2)+"\n")
-    with CSV.open("a",newline="") as h: csv.writer(h).writerow([obs["observed_at"][:10],obs["value"],obs["source"],obs["source_product"],obs["provenance"]["scene_cloud_cover_percent"],obs["method"],obs["method_version"],";".join(flags)])
-    LATEST.write_text(json.dumps({"lake_id":cfg["id"],"status":"valid_observation","as_of":obs["processed_at"],"latest_observation":obs,"limitations_url":"../../docs/limitations.md"},indent=2)+"\n"); print(json.dumps(obs,indent=2))
+    publish(obs, promote_latest=False)
 if __name__=="__main__": main()

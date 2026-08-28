@@ -2,6 +2,7 @@
 """Print a conservative candidate-date plan; optional execution is intentionally explicit."""
 from __future__ import annotations
 import argparse
+import os
 import subprocess
 from datetime import date
 from pathlib import Path
@@ -20,12 +21,16 @@ def main() -> None:
     parser.add_argument("--start-year", type=int, default=1985)
     parser.add_argument("--end-year", type=int, default=date.today().year)
     parser.add_argument("--execute", action="store_true", help="Run the Sentinel-2 processor for recent candidates after review")
+    parser.add_argument("--project", default=os.environ.get("OPENIMJA_EE_PROJECT"), help="Earth Engine-enabled Google Cloud project")
+    parser.add_argument("--auth-source", choices=["earthengine", "application-default"], default="earthengine")
     args = parser.parse_args()
+    if args.execute and not args.project:
+        parser.error("--project (or OPENIMJA_EE_PROJECT) is required with --execute")
     for candidate in candidate_dates(args.start_year, args.end_year):
         print(candidate.isoformat())
         if args.execute:
             processor = "pipeline/python/process_sentinel2.py" if candidate.year >= 2017 else "pipeline/python/process_landsat.py"
-            subprocess.run(["python", processor, "--date", candidate.isoformat()], cwd=ROOT, check=False)
+            subprocess.run(["python", processor, "--date", candidate.isoformat(), "--project", args.project, "--auth-source", args.auth_source], cwd=ROOT, check=False)
     if not args.execute:
         print("Candidate plan only. Review each output boundary and quality flag before publishing a historical series.")
 

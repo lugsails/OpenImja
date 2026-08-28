@@ -10,11 +10,13 @@ from __future__ import annotations
 import argparse
 import csv
 import json
+import os
 import subprocess
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 import ee
+import google.auth
 
 from freshness import classify
 
@@ -109,12 +111,25 @@ def process(args: argparse.Namespace) -> dict:
     return observation
 
 
-def publish(observation: dict) -> None:
+def publish(observation: dict, promote_latest: bool = False) -> None:
+    observation = {**observation, "publication_status": "published" if promote_latest else "candidate"}
     observation_path = ROOT / "data/processed/imja-tsho" / f"{observation['observed_at'][:10]}.json"
     observation_path.write_text(json.dumps(observation, indent=2) + "\n")
-    with CSV_PATH.open("a", newline="") as handle:
-        csv.writer(handle).writerow([observation["observed_at"][:10], observation["value"], observation["source"], observation["source_product"], observation["provenance"]["scene_cloud_cover_percent"], observation["method"], observation["method_version"], ";".join(observation["quality_flags"])])
-    LATEST_PATH.write_text(json.dumps({"lake_id": observation["lake_id"], "status": "valid_observation", "as_of": observation["processed_at"], "latest_observation": observation, "limitations_url": "../../docs/limitations.md"}, indent=2) + "\n")
+    fields = ["date", "lake_area_km2", "source", "source_product", "cloud_cover", "method", "method_version", "quality_flag", "publication_status"]
+    row = {"date": observation["observed_at"][:10], "lake_area_km2": observation["value"], "source": observation["source"], "source_product": observation["source_product"], "cloud_cover": observation["provenance"]["scene_cloud_cover_percent"], "method": observation["method"], "method_version": observation["method_version"], "quality_flag": ";".join(observation["quality_flags"]), "publication_status": observation["publication_status"]}
+    with CSV_PATH.open(newline="") as handle:
+        rows = list(csv.DictReader(handle))
+    rows = [existing for existing in rows if existing["source_product"] != row["source_product"]]
+    rows.append(row)
+    rows.sort(key=lambda item: (item["date"], item["source_product"]))
+    with CSV_PATH.open("w", newline="") as handle:
+        writer = csv.DictWriter(handle, fieldnames=fields, lineterminator="\n", extrasaction="ignore")
+        writer.writeheader(); writer.writerows(rows)
+    existing_latest = json.loads(LATEST_PATH.read_text()) if LATEST_PATH.exists() else {}
+    existing_observation = existing_latest.get("latest_observation") or {}
+    existing_is_published = existing_observation.get("publication_status") == "published"
+    if promote_latest and (not existing_observation or not existing_is_published or observation["observed_at"] >= existing_observation.get("observed_at", "")):
+        LATEST_PATH.write_text(json.dumps({"lake_id": observation["lake_id"], "status": "valid_observation", "as_of": observation["processed_at"], "latest_observation": observation, "limitations_url": "../../docs/limitations.md"}, indent=2) + "\n")
     print(json.dumps(observation, indent=2))
 
 
@@ -124,9 +139,18 @@ def main() -> None:
     parser.add_argument("--window-days", type=int, default=30)
     parser.add_argument("--ndwi-threshold", type=float, default=0.10)
     parser.add_argument("--min-valid-fraction", type=float, default=0.70)
+    parser.add_argument("--project", default=os.environ.get("OPENIMJA_EE_PROJECT"), help="Earth Engine-enabled Google Cloud project (or set OPENIMJA_EE_PROJECT)")
+    parser.add_argument("--auth-source", choices=["earthengine", "application-default"], default="earthengine", help="Credential store to use; application-default uses gcloud auth application-default login")
+    parser.add_argument("--promote-latest", action="store_true", help="Update data/latest only after visually reviewing this candidate boundary")
     args = parser.parse_args()
-    ee.Initialize()
-    publish(process(args))
+    if not args.project:
+        parser.error("--project (or OPENIMJA_EE_PROJECT) is required; Earth Engine operations must be charged to an enabled Cloud project.")
+    if args.auth_source == "application-default":
+        credentials, _ = google.auth.default(scopes=["https://www.googleapis.com/auth/earthengine", "https://www.googleapis.com/auth/cloud-platform"])
+        ee.Initialize(credentials=credentials, project=args.project)
+    else:
+        ee.Initialize(project=args.project)
+    publish(process(args), promote_latest=args.promote_latest)
 
 
 if __name__ == "__main__":

@@ -18,6 +18,7 @@
     "parameters": {"type": "object"},
     "confidence": {"type": ["number", "null"], "minimum": 0, "maximum": 1},
     "quality_flags": {"type": "array", "items": {"type": "string"}},
+    "publication_status": {"enum": ["candidate", "published"]},
     "freshness": {"type": "object", "required": ["status", "age_days", "evaluated_at"]},
     "boundary_geojson_url": {"type": ["string", "null"]},
     "provenance": {"type": "object", "required": ["code_version", "config_path", "image_id"]}

@@ -1,0 +1,41 @@
+{
+  "lake_id": "imja-tsho",
+  "variable": "lake_area",
+  "value": 1.654877,
+  "unit": "km2",
+  "observed_at": "2024-11-07T05:01:00.558000Z",
+  "processed_at": "2026-08-27T23:49:35.925643Z",
+  "source": "Sentinel-2",
+  "source_product": "COPERNICUS/S2_SR_HARMONIZED/20241107T045011_20241107T045627_T45RVL",
+  "source_url": "https://developers.google.com/earth-engine/datasets/catalog/COPERNICUS_S2_SR_HARMONIZED",
+  "method": "sentinel2_s2sr_qa60_scl_ndwi_connected_component",
+  "method_version": "0.1.0",
+  "parameters": {
+    "index": "NDWI=(B3-B8)/(B3+B8)",
+    "ndwi_threshold": 0.1,
+    "cloud_mask": "QA60 cloud/cirrus bits plus SCL cloud-shadow/snow classes",
+    "aoi_valid_fraction_minimum": 0.2,
+    "aoi_status": "draft_requires_visual_validation",
+    "scale_m": 10
+  },
+  "confidence": null,
+  "quality_flags": [
+    "DRAFT_AOI_REQUIRES_VISUAL_VALIDATION",
+    "OPTICAL_WATER_CLASSIFICATION",
+    "PARTIALLY_MASKED_AOI"
+  ],
+  "freshness": {
+    "status": "HISTORICAL",
+    "age_days": 658,
+    "evaluated_at": "2026-08-27T23:49:35.925643Z"
+  },
+  "boundary_geojson_url": "data/processed/imja-tsho/boundaries/2024-11-07_20241107T045011_20241107T045627_T45RVL.geojson",
+  "provenance": {
+    "code_version": "16502d21599349d37c36186da08e5ec1fd5b2093",
+    "config_path": "config/lakes/imja-tsho.json",
+    "image_id": "COPERNICUS/S2_SR_HARMONIZED/20241107T045011_20241107T045627_T45RVL",
+    "earth_engine_collection": "COPERNICUS/S2_SR_HARMONIZED",
+    "scene_cloud_cover_percent": 3.532971,
+    "aoi_valid_fraction": 0.8370346055561986
+  }
+}
