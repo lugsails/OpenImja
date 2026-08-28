@@ -17,6 +17,8 @@
     "geometry": {"type": "object", "required": ["type", "coordinates"]},
     "seed_point": {"type": ["object", "null"]},
     "aoi_status": {"type": "string"},
+    "reviewed_reference_lake_envelope": {"type": "object", "required": ["path", "source_observation", "status", "notes"]},
+    "sentinel2_qa": {"type": "object", "required": ["minimum_aoi_valid_fraction", "minimum_lake_envelope_valid_fraction", "outlier_comparison_max_age_days", "outlier_minimum_elapsed_days", "outlier_max_relative_area_change"]},
     "data_sources": {"type": "array", "items": {"type": "object", "required": ["name", "role"]}},
     "notes": {"type": "string"}
   },

@@ -28,10 +28,25 @@
       "OPTICAL_WATER_CLASSIFICATION",
       "PARTIALLY_MASKED_AOI"
     ],
+    "observation_state": "published",
+    "rejection_reasons": [],
+    "state_history": [
+      {"state": "discovered", "at": "2026-08-27T23:44:40.530699Z"},
+      {"state": "processed", "at": "2026-08-27T23:44:40.530699Z"},
+      {"state": "reviewed", "at": "2026-08-27T23:52:59.398865Z", "note": "Project operator visually confirmed the intended Imja Tsho target in the Code Editor."},
+      {"state": "published", "at": "2026-08-27T23:54:31.465205Z", "note": "Promoted after visual target review."}
+    ],
     "freshness": {
       "status": "HISTORICAL",
       "age_days": 283,
       "evaluated_at": "2026-08-27T23:54:31.465205Z"
+    },
+    "qa": {
+      "aoi_valid_fraction": 0.6029874558914119,
+      "lake_envelope_valid_fraction": 1.0,
+      "reference_lake_envelope_path": "data/processed/imja-tsho/boundaries/2025-11-17_20251117T044959_20251117T045240_T45RVL.geojson",
+      "outlier_reference_observation": null,
+      "relative_area_change": null
     },
     "boundary_geojson_url": "data/processed/imja-tsho/boundaries/2025-11-17_20251117T044959_20251117T045240_T45RVL.geojson",
     "provenance": {

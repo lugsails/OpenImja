@@ -4,7 +4,7 @@
   "value": 0.130205,
   "unit": "km2",
   "observed_at": "2026-08-11T05:01:21.011000Z",
-  "processed_at": "2026-08-27T23:52:13.851200Z",
+  "processed_at": "2026-08-28T03:13:45.661196Z",
   "source": "Sentinel-2",
   "source_product": "COPERNICUS/S2_SR_HARMONIZED/20260811T045241_20260811T045240_T45RVL",
   "source_url": "https://developers.google.com/earth-engine/datasets/catalog/COPERNICUS_S2_SR_HARMONIZED",
@@ -14,27 +14,34 @@
     "index": "NDWI=(B3-B8)/(B3+B8)",
     "ndwi_threshold": 0.1,
     "cloud_mask": "QA60 cloud/cirrus bits plus SCL cloud-shadow/snow classes",
-    "aoi_valid_fraction_minimum": 0.2,
-    "aoi_status": "draft_requires_visual_validation",
-    "scale_m": 10
+    "aoi_status": "draft_requires_visual_validation"
   },
   "confidence": null,
   "quality_flags": [
-    "DRAFT_AOI_REQUIRES_VISUAL_VALIDATION",
-    "OPTICAL_WATER_CLASSIFICATION",
-    "PARTIALLY_MASKED_AOI"
+    "LOW_LAKE_ENVELOPE_OBSERVABILITY",
+    "TEMPORAL_AREA_CHANGE_OUTLIER"
   ],
   "observation_state": "rejected",
-  "rejection_reasons": ["LOW_LAKE_ENVELOPE_OBSERVABILITY", "TEMPORAL_AREA_CHANGE_OUTLIER"],
+  "rejection_reasons": [
+    "LOW_LAKE_ENVELOPE_OBSERVABILITY",
+    "TEMPORAL_AREA_CHANGE_OUTLIER"
+  ],
   "state_history": [
-    {"state": "discovered", "at": "2026-08-27T23:52:13.851200Z"},
-    {"state": "rejected", "at": "2026-08-28T03:13:45.661196Z", "note": "Rejected by reference-envelope and temporal-outlier QA scan."}
+    {
+      "state": "discovered",
+      "at": "2026-08-28T03:13:45.661196Z"
+    },
+    {
+      "state": "rejected",
+      "at": "2026-08-28T03:13:45.661196Z"
+    }
   ],
   "freshness": {
     "status": "AGING",
     "age_days": 16,
-    "evaluated_at": "2026-08-27T23:52:13.851200Z"
+    "evaluated_at": "2026-08-28T03:13:45.661196Z"
   },
+  "boundary_geojson_url": null,
   "qa": {
     "aoi_valid_fraction": 0.38245046193541227,
     "lake_envelope_valid_fraction": 0.2874621612108415,
@@ -42,9 +49,8 @@
     "outlier_reference_observation": "COPERNICUS/S2_SR_HARMONIZED/20251117T044959_20251117T045240_T45RVL",
     "relative_area_change": -0.902849489643646
   },
-  "boundary_geojson_url": "data/processed/imja-tsho/boundaries/2026-08-11_20260811T045241_20260811T045240_T45RVL.geojson",
   "provenance": {
-    "code_version": "16502d21599349d37c36186da08e5ec1fd5b2093",
+    "code_version": "scan_sentinel2_v0_1",
     "config_path": "config/lakes/imja-tsho.json",
     "image_id": "COPERNICUS/S2_SR_HARMONIZED/20260811T045241_20260811T045240_T45RVL",
     "earth_engine_collection": "COPERNICUS/S2_SR_HARMONIZED",

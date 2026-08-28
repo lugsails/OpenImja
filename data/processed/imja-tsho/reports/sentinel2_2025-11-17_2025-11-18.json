@@ -1,0 +1,21 @@
+{
+  "lake_id": "imja-tsho",
+  "start": "2025-11-17",
+  "end": "2025-11-18",
+  "generated_at": "2026-08-28T03:14:46.598608Z",
+  "scene_count": 1,
+  "states": {
+    "processed": 1,
+    "rejected": 0
+  },
+  "scenes": [
+    {
+      "source_product": "COPERNICUS/S2_SR_HARMONIZED/20251117T044959_20251117T045240_T45RVL",
+      "observed_at": "2025-11-17T05:01:00.426000Z",
+      "state": "processed",
+      "rejection_reasons": [],
+      "lake_envelope_valid_fraction": 1.0,
+      "value": 1.34024
+    }
+  ]
+}

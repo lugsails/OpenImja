@@ -4,7 +4,7 @@
   "value": 1.34024,
   "unit": "km2",
   "observed_at": "2025-11-17T05:01:00.426000Z",
-  "processed_at": "2026-08-27T23:54:31.465205Z",
+  "processed_at": "2026-08-28T03:14:46.592914Z",
   "source": "Sentinel-2",
   "source_product": "COPERNICUS/S2_SR_HARMONIZED/20251117T044959_20251117T045240_T45RVL",
   "source_url": "https://developers.google.com/earth-engine/datasets/catalog/COPERNICUS_S2_SR_HARMONIZED",
@@ -14,29 +14,30 @@
     "index": "NDWI=(B3-B8)/(B3+B8)",
     "ndwi_threshold": 0.1,
     "cloud_mask": "QA60 cloud/cirrus bits plus SCL cloud-shadow/snow classes",
-    "aoi_valid_fraction_minimum": 0.2,
-    "aoi_status": "draft_requires_visual_validation",
-    "scale_m": 10
+    "aoi_status": "draft_requires_visual_validation"
   },
   "confidence": null,
   "quality_flags": [
-    "DRAFT_AOI_REQUIRES_VISUAL_VALIDATION",
-    "OPTICAL_WATER_CLASSIFICATION",
-    "PARTIALLY_MASKED_AOI"
+    "QA_PASSED_PENDING_REVIEW"
   ],
-  "observation_state": "published",
+  "observation_state": "processed",
   "rejection_reasons": [],
   "state_history": [
-    {"state": "discovered", "at": "2026-08-27T23:44:40.530699Z"},
-    {"state": "processed", "at": "2026-08-27T23:44:40.530699Z"},
-    {"state": "reviewed", "at": "2026-08-27T23:52:59.398865Z", "note": "Project operator visually confirmed the intended Imja Tsho target in the Code Editor."},
-    {"state": "published", "at": "2026-08-27T23:54:31.465205Z", "note": "Promoted after visual target review."}
+    {
+      "state": "discovered",
+      "at": "2026-08-28T03:14:46.592914Z"
+    },
+    {
+      "state": "processed",
+      "at": "2026-08-28T03:14:46.592914Z"
+    }
   ],
   "freshness": {
     "status": "HISTORICAL",
     "age_days": 283,
-    "evaluated_at": "2026-08-27T23:54:31.465205Z"
+    "evaluated_at": "2026-08-28T03:14:46.592914Z"
   },
+  "boundary_geojson_url": "data/processed/imja-tsho/scenes/20251117T044959_20251117T045240_T45RVL.geojson",
   "qa": {
     "aoi_valid_fraction": 0.6029874558914119,
     "lake_envelope_valid_fraction": 1.0,
@@ -44,14 +45,12 @@
     "outlier_reference_observation": null,
     "relative_area_change": null
   },
-  "boundary_geojson_url": "data/processed/imja-tsho/boundaries/2025-11-17_20251117T044959_20251117T045240_T45RVL.geojson",
   "provenance": {
-    "code_version": "16502d21599349d37c36186da08e5ec1fd5b2093",
+    "code_version": "scan_sentinel2_v0_1",
     "config_path": "config/lakes/imja-tsho.json",
     "image_id": "COPERNICUS/S2_SR_HARMONIZED/20251117T044959_20251117T045240_T45RVL",
     "earth_engine_collection": "COPERNICUS/S2_SR_HARMONIZED",
     "scene_cloud_cover_percent": 0.376329,
     "aoi_valid_fraction": 0.6029874558914119
-  },
-  "publication_status": "published"
+  }
 }

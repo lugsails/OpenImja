@@ -104,7 +104,7 @@ def process(args: argparse.Namespace) -> dict:
         "source_product": image_id, "source_url": "https://developers.google.com/earth-engine/datasets/catalog/COPERNICUS_S2_SR_HARMONIZED",
         "method": METHOD, "method_version": METHOD_VERSION,
         "parameters": {"index": "NDWI=(B3-B8)/(B3+B8)", "ndwi_threshold": args.ndwi_threshold, "cloud_mask": "QA60 cloud/cirrus bits plus SCL cloud-shadow/snow classes", "aoi_valid_fraction_minimum": args.min_valid_fraction, "aoi_status": config["aoi_status"], "scale_m": 10},
-        "confidence": None, "quality_flags": flags, "freshness": classify(observed, processed),
+        "confidence": None, "quality_flags": flags, "observation_state": "processed", "rejection_reasons": [], "freshness": classify(observed, processed),
         "boundary_geojson_url": relative_boundary,
         "provenance": {"code_version": git_revision(), "config_path": "config/lakes/imja-tsho.json", "image_id": image_id, "earth_engine_collection": "COPERNICUS/S2_SR_HARMONIZED", "scene_cloud_cover_percent": properties.get("CLOUDY_PIXEL_PERCENTAGE"), "aoi_valid_fraction": valid_fraction}
     }
@@ -112,7 +112,13 @@ def process(args: argparse.Namespace) -> dict:
 
 
 def publish(observation: dict, promote_latest: bool = False) -> None:
-    observation = {**observation, "publication_status": "published" if promote_latest else "candidate"}
+    state = "published" if promote_latest else observation.get("observation_state", "processed")
+    history = list(observation.get("state_history", []))
+    if not history:
+        history = [{"state": "discovered", "at": observation["processed_at"]}, {"state": state, "at": observation["processed_at"]}]
+    elif promote_latest and history[-1].get("state") != "published":
+        history.append({"state": "published", "at": observation["processed_at"], "note": "Explicit --promote-latest requested."})
+    observation = {**observation, "publication_status": "published" if promote_latest else "candidate", "observation_state": state, "rejection_reasons": observation.get("rejection_reasons", []), "state_history": history}
     observation_path = ROOT / "data/processed/imja-tsho" / f"{observation['observed_at'][:10]}.json"
     observation_path.write_text(json.dumps(observation, indent=2) + "\n")
     fields = ["date", "lake_area_km2", "source", "source_product", "cloud_cover", "method", "method_version", "quality_flag", "publication_status"]

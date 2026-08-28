@@ -4,7 +4,7 @@
   "value": 1.654877,
   "unit": "km2",
   "observed_at": "2024-11-07T05:01:00.558000Z",
-  "processed_at": "2026-08-27T23:49:35.925643Z",
+  "processed_at": "2026-08-28T03:13:59.383435Z",
   "source": "Sentinel-2",
   "source_product": "COPERNICUS/S2_SR_HARMONIZED/20241107T045011_20241107T045627_T45RVL",
   "source_url": "https://developers.google.com/earth-engine/datasets/catalog/COPERNICUS_S2_SR_HARMONIZED",
@@ -14,37 +14,39 @@
     "index": "NDWI=(B3-B8)/(B3+B8)",
     "ndwi_threshold": 0.1,
     "cloud_mask": "QA60 cloud/cirrus bits plus SCL cloud-shadow/snow classes",
-    "aoi_valid_fraction_minimum": 0.2,
-    "aoi_status": "draft_requires_visual_validation",
-    "scale_m": 10
+    "aoi_status": "draft_requires_visual_validation"
   },
   "confidence": null,
   "quality_flags": [
-    "DRAFT_AOI_REQUIRES_VISUAL_VALIDATION",
-    "OPTICAL_WATER_CLASSIFICATION",
-    "PARTIALLY_MASKED_AOI"
+    "QA_PASSED_PENDING_REVIEW"
   ],
   "observation_state": "processed",
   "rejection_reasons": [],
   "state_history": [
-    {"state": "discovered", "at": "2026-08-27T23:49:35.925643Z"},
-    {"state": "processed", "at": "2026-08-27T23:49:35.925643Z", "note": "Migrated to v0.1 QA state model; scene passes reference-envelope scan."}
+    {
+      "state": "discovered",
+      "at": "2026-08-28T03:13:59.383435Z"
+    },
+    {
+      "state": "processed",
+      "at": "2026-08-28T03:13:59.383435Z"
+    }
   ],
   "freshness": {
     "status": "HISTORICAL",
     "age_days": 658,
-    "evaluated_at": "2026-08-27T23:49:35.925643Z"
+    "evaluated_at": "2026-08-28T03:13:59.383435Z"
   },
+  "boundary_geojson_url": "data/processed/imja-tsho/scenes/20241107T045011_20241107T045627_T45RVL.geojson",
   "qa": {
     "aoi_valid_fraction": 0.8370346055561986,
     "lake_envelope_valid_fraction": 0.9384547694473779,
     "reference_lake_envelope_path": "data/processed/imja-tsho/boundaries/2025-11-17_20251117T044959_20251117T045240_T45RVL.geojson",
     "outlier_reference_observation": "COPERNICUS/S2_SR_HARMONIZED/20251117T044959_20251117T045240_T45RVL",
-    "relative_area_change": 0.234765864770492
+    "relative_area_change": 0.23476168447442236
   },
-  "boundary_geojson_url": "data/processed/imja-tsho/boundaries/2024-11-07_20241107T045011_20241107T045627_T45RVL.geojson",
   "provenance": {
-    "code_version": "16502d21599349d37c36186da08e5ec1fd5b2093",
+    "code_version": "scan_sentinel2_v0_1",
     "config_path": "config/lakes/imja-tsho.json",
     "image_id": "COPERNICUS/S2_SR_HARMONIZED/20241107T045011_20241107T045627_T45RVL",
     "earth_engine_collection": "COPERNICUS/S2_SR_HARMONIZED",

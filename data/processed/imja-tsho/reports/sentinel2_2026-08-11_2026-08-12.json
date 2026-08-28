@@ -1,0 +1,24 @@
+{
+  "lake_id": "imja-tsho",
+  "start": "2026-08-11",
+  "end": "2026-08-12",
+  "generated_at": "2026-08-28T03:13:45.662089Z",
+  "scene_count": 1,
+  "states": {
+    "processed": 0,
+    "rejected": 1
+  },
+  "scenes": [
+    {
+      "source_product": "COPERNICUS/S2_SR_HARMONIZED/20260811T045241_20260811T045240_T45RVL",
+      "observed_at": "2026-08-11T05:01:21.011000Z",
+      "state": "rejected",
+      "rejection_reasons": [
+        "LOW_LAKE_ENVELOPE_OBSERVABILITY",
+        "TEMPORAL_AREA_CHANGE_OUTLIER"
+      ],
+      "lake_envelope_valid_fraction": 0.2874621612108415,
+      "value": 0.130205
+    }
+  ]
+}

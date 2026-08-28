@@ -20,6 +20,8 @@ Scene-wide cloud percentage is only a coarse signal. The processor also records 
 
 Optical imagery is affected by cloud and illumination but provides spectral water indices. Sentinel-1 synthetic-aperture radar can observe through cloud and can complement optical coverage, but its backscatter is sensitive to roughness, geometry, terrain effects, and wet snow. Sentinel-1 is reserved in the data model for future work; it is not blended into v0.1 values.
 
+Any future SAR adapter must emit the same observation-state, provenance, freshness, quality, and rejection-reason fields as optical records. It must additionally record acquisition mode, orbit direction, relative orbit, polarization, incidence-angle/terrain correction method, speckle treatment, and a SAR-specific reference-envelope observability measure. SAR and optical area estimates must remain separate series until cross-sensor validation is documented.
+
 ## Reproducibility
 
 Each record carries acquisition time, processing time, source product ID, collection, parameters, code revision, configuration path, quality flags, freshness evaluation, and a derived GeoJSON boundary. The CSV is a convenient index; the observation JSON is the authoritative detailed record.
